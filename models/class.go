@@ -42,3 +42,23 @@ func GetClasses() Classes {
     }
     return result
 }
+
+func GetClass(id string) Class {
+    con := db.DBConnect()
+    sqlstatement := "SELECT id, name FROM classes WHERE id= ?"
+    rows, err := con.Query(sqlstatement, id)
+    
+    if err != nil {
+        fmt.Println("err here", err)
+    }
+    defer rows.Close()
+    
+    result := Class{}
+    for rows.Next() {
+        err2 := rows.Scan(&result.ID, &result.Name)
+        if err2 != nil {
+            fmt.Println("err there", err2)
+        }
+    }
+    return result
+}

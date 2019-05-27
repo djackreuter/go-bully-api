@@ -2,17 +2,20 @@ package main
 
 import (
     "github.com/gin-gonic/gin"
+    "fmt"
     "github.com/djackreuter/go-bully-api/api/v1"
 )
 
 
 func setupRoutes() {
-    router := gin.Default()
+    r := gin.Default()
 
-    r := router.Group("/api/v1")
+    g1 := r.Group("/api/v1")
     {
-        r.GET("/class", v1.GetClasses)
+        g1.GET("/classes", v1.GetClasses)
+        g1.GET("/class/:id", v1.GetClass)
     }
 
-    router.Run()
+    r.Run()
+    fmt.Println("Listening on port 8080")
 }
