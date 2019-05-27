@@ -14,6 +14,7 @@ func setupRoutes() {
     {
         g1.GET("/classes", v1.GetClasses)
         g1.GET("/class/:id", v1.GetClass)
+        g1.POST("/classes", v1.CreateClass)
     }
 
     r.Run()

@@ -23,8 +23,6 @@ func GetClasses() Classes {
     sqlstatement := "SELECT id, name FROM classes ORDER BY id"
 
     rows, err := con.Query(sqlstatement)
-    fmt.Println(rows)
-    fmt.Println(err)
     if err != nil {
         fmt.Println(err)
     }
@@ -43,22 +41,20 @@ func GetClasses() Classes {
     return result
 }
 
-func GetClass(id string) Class {
+func GetClass(id string) (Class, error) {
     con := db.DBConnect()
     sqlstatement := "SELECT id, name FROM classes WHERE id= ?"
-    rows, err := con.Query(sqlstatement, id)
-    
-    if err != nil {
-        fmt.Println("err here", err)
-    }
-    defer rows.Close()
+    row := con.QueryRow(sqlstatement, id)
     
     result := Class{}
-    for rows.Next() {
-        err2 := rows.Scan(&result.ID, &result.Name)
-        if err2 != nil {
-            fmt.Println("err there", err2)
-        }
+    err := row.Scan(&result.ID, &result.Name)
+    if err != nil {
+        fmt.Println("No Rows", err)
     }
-    return result
+    return result, err
+}
+
+func CreateClass() Class {
+    class := Class{}
+    return class
 }

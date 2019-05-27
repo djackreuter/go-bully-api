@@ -12,6 +12,11 @@ func GetClasses(c *gin.Context) {
 }
 
 func GetClass(c *gin.Context) {
-    res := models.GetClass(c.Param("id"))
-    c.JSON(http.StatusOK, res)
+    res, err := models.GetClass(c.Param("id"))
+    if err != nil {
+        c.JSON(http.StatusNotFound, err)
+    } else {
+        c.JSON(http.StatusOK, res)
+    }
 }
+
