@@ -3,8 +3,9 @@ package models
 import (
     "database/sql"
     "fmt"
-    _ "github.com/go-sql-driver/mysql" 
+    _ "github.com/go-sql-driver/mysql"
     "github.com/djackreuter/go-bully-api/db"
+    "strconv"
 )
 
 type Class struct {
@@ -45,7 +46,7 @@ func GetClass(id string) (Class, error) {
     con := db.DBConnect()
     sqlstatement := "SELECT id, name FROM classes WHERE id= ?"
     row := con.QueryRow(sqlstatement, id)
-    
+
     result := Class{}
     err := row.Scan(&result.ID, &result.Name)
     if err != nil {
@@ -54,7 +55,22 @@ func GetClass(id string) (Class, error) {
     return result, err
 }
 
-func CreateClass() Class {
-    class := Class{}
-    return class
+func CreateClass(class *Class) (Class, error) {
+    con := db.DBConnect()
+    var newClass Class
+    sqlstatement := "INSERT INTO classes(name) VALUES(?)"
+    res, err := con.Exec(sqlstatement, class.Name)
+    if err != nil {
+        return newClass, err
+    }
+    id, err := res.LastInsertId()
+    if err != nil {
+        return newClass, err
+    }
+    strId := strconv.FormatInt(id, 10)
+    newClass, err = GetClass(strId)
+    if err != nil {
+        return newClass, err
+    }
+    return newClass, nil
 }
