@@ -74,3 +74,30 @@ func CreateClass(class *Class) (Class, error) {
     }
     return newClass, nil
 }
+
+func UpdateClass(class *Class) (Class, error) {
+    con := db.DBConnect()
+    var updatedClass Class
+
+    sqlstatement := "UPDATE classes SET name = ? WHERE id = ?"
+    _, err := con.Exec(sqlstatement, class.Name, class.ID)
+    if err != nil {
+        return updatedClass, err
+    }
+    strId := strconv.FormatInt(int64(class.ID), 10)
+    updatedClass, err = GetClass(strId)
+    if err != nil {
+        return updatedClass, err
+    }
+    return updatedClass, nil
+}
+
+func DeleteClass(id string) error {
+    con := db.DBConnect()
+    sqlstatement := "DELETE FROM classes WHERE id=?"
+    if _, err := con.Exec(sqlstatement, id); err != nil {
+        return err
+    }
+    return nil
+}
+
