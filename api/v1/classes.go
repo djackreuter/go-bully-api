@@ -49,7 +49,12 @@ func UpdateClass(c *gin.Context) {
 }
 
 func DeleteClass(c *gin.Context) {
-    if err := models.DeleteClass(c.Param("id")); err != nil {
+    class := models.Class{}
+    if err := c.ShouldBindJSON(&class); err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": err})
+        return
+    }
+    if err := models.DeleteClass(&class); err != nil {
         c.JSON(http.StatusBadRequest, gin.H{"error": err})
         return
     }

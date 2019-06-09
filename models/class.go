@@ -21,7 +21,7 @@ var con *sql.DB
 
 func GetClasses() Classes {
     con := db.DBConnect()
-    sqlstatement := "SELECT id, name FROM classes ORDER BY id"
+    sqlstatement := "SELECT id, name FROM classes ORDER BY id;"
 
     rows, err := con.Query(sqlstatement)
     if err != nil {
@@ -44,7 +44,7 @@ func GetClasses() Classes {
 
 func GetClass(id string) (Class, error) {
     con := db.DBConnect()
-    sqlstatement := "SELECT id, name FROM classes WHERE id= ?"
+    sqlstatement := "SELECT id, name FROM classes WHERE id= ?;"
     row := con.QueryRow(sqlstatement, id)
 
     result := Class{}
@@ -58,7 +58,7 @@ func GetClass(id string) (Class, error) {
 func CreateClass(class *Class) (Class, error) {
     con := db.DBConnect()
     var newClass Class
-    sqlstatement := "INSERT INTO classes(name) VALUES(?)"
+    sqlstatement := "INSERT INTO classes(name) VALUES(?);"
     res, err := con.Exec(sqlstatement, class.Name)
     if err != nil {
         return newClass, err
@@ -79,7 +79,7 @@ func UpdateClass(class *Class) (Class, error) {
     con := db.DBConnect()
     var updatedClass Class
 
-    sqlstatement := "UPDATE classes SET name = ? WHERE id = ?"
+    sqlstatement := "UPDATE classes SET name = ? WHERE id = ?;"
     _, err := con.Exec(sqlstatement, class.Name, class.ID)
     if err != nil {
         return updatedClass, err
@@ -92,10 +92,10 @@ func UpdateClass(class *Class) (Class, error) {
     return updatedClass, nil
 }
 
-func DeleteClass(id string) error {
+func DeleteClass(class *Class) error {
     con := db.DBConnect()
-    sqlstatement := "DELETE FROM classes WHERE id=?"
-    if _, err := con.Exec(sqlstatement, id); err != nil {
+    sqlstatement := "DELETE FROM classes WHERE id= ?;"
+    if _, err := con.Exec(sqlstatement, class.ID); err != nil {
         return err
     }
     return nil
