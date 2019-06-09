@@ -20,9 +20,16 @@ func setupRoutes() {
 
         g1.GET("/locations", v1.GetLocations)
         g1.GET("/location/:id", v1.GetLocation)
-        g1.POST("/location", v1.AddLocation)
+        g1.POST("/location", v1.CreateLocation)
         g1.PATCH("/location", v1.UpdateLocation)
         g1.DELETE("/location", v1.DeleteLocation)
+
+        g1.GET("/missions", v1.GetMissions)
+        g1.GET("/mission/:id", v1.GetMission)
+        g1.POST("/mission", v1.CreateMission)
+        g1.PATCH("/mission", v1.UpdateMission)
+        g1.DELETE("/mission", v1.DeleteMission)
+
     }
 
     r.Run()

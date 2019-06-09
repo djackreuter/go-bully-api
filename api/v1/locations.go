@@ -25,13 +25,13 @@ func GetLocation(c *gin.Context) {
 	c.JSON(http.StatusOK, res)
 }
 
-func AddLocation(c *gin.Context) {
+func CreateLocation(c *gin.Context) {
 	var newLoc = models.Location{}
 	if err := c.ShouldBindJSON(&newLoc); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err})
 		return
 	}
-    res, err := models.AddLocation(&newLoc)
+    res, err := models.CreateLocation(&newLoc)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err})
 		return

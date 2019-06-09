@@ -51,7 +51,7 @@ func GetLocation(id string) (*Location, error) {
 	return loc, nil
 }
 
-func AddLocation(loc *Location) (*Location, error) {
+func CreateLocation(loc *Location) (*Location, error) {
 	conn := db.DBConnect()
     var newLoc *Location
 
@@ -65,7 +65,7 @@ func AddLocation(loc *Location) (*Location, error) {
     if err != nil {
         return newLoc, err
     }
-    return GetLocation(strconv.FormatInt(intId, 16))
+    return GetLocation(strconv.FormatInt(intId, 10))
 }
 
 func UpdateLocation(loc *Location) (*Location, error) {
