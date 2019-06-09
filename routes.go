@@ -30,6 +30,12 @@ func setupRoutes() {
         g1.PATCH("/mission", v1.UpdateMission)
         g1.DELETE("/mission", v1.DeleteMission)
 
+        g1.GET("/cliques", v1.GetCliques)
+        g1.GET("/clique/:id", v1.GetClique)
+        g1.POST("/clique", v1.CreateClique)
+        g1.PATCH("/clique", v1.UpdateClique)
+        g1.DELETE("/clique", v1.DeleteClique)
+
     }
 
     r.Run()
